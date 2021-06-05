@@ -1,0 +1,542 @@
+#:include farmersmapview.kv
+ScreenManager:
+    ToolScreen:
+    MenuScreen:
+    LoginScreen:
+    SigninScreen:
+    CallBackScreen:
+    PrivacyPolicyScreen:
+    AddPlaceScreen:
+
+
+<MenuScreen>:
+    name: 'menu'
+
+    MDLabel:
+        text:'Аккаунт'
+        halign:'center'
+        theme_text_color:'Secondary'
+        pos_hint:{'center_y':.8}
+        font_style:'H6'
+    Image:
+        id: avatar
+        size_hint: (1,1)
+        pos_hint:{'center_x':.5,'center_y':0.65}
+        source: "icons8-test-account-80.png"
+
+    MDRectangleFlatButton:
+        text: 'Войти'
+        pos_hint: {'center_x':0.3,'center_y':0.4}
+        on_press: root.manager.current = 'login'
+    MDRectangleFlatButton:
+        text: 'Регистрация'
+        pos_hint: {'center_x':0.7,'center_y':0.4}
+        on_press: root.manager.current = 'signin'
+    MDRectangleFlatButton:
+        text: 'Назад'
+        pos_hint: {'center_x':0.79,'center_y':0.9}
+        on_press: root.manager.current = 'tollbar'
+
+    MDTextButton:
+        text:'Забыли пароль?'
+        pos_hint:{'center_x':.72,'center_y':.20}
+        font_size:'15dp'
+        on_press: root.manager.current = 'callback'
+    MDTextButton:
+        text:f'Dont have an account ?[/color] Регистрация'
+        markup:True
+        pos_hint:{'center_x':0.5,'center_y':.10}
+        font_size:'15dp'
+        on_press: root.manager.current = 'signin'
+
+<LoginScreen>:
+    email: email
+    password: password 
+    name:'login'
+    MDLabel:
+        text:'Возможности'
+        halign:'center'
+        theme_text_color:'Secondary'
+        pos_hint:{'center_y':.9}
+        font_style:'H6'
+    MDLabel:
+        text:'Войти'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_y':.8}
+        font_style:'H5'
+        underline:True
+        markup:True
+    MDTextField:
+        hint_text:'Email'
+        id: email
+        pos_hint:{'center_x':.5,'center_y':.62}
+        size_hint:None,None
+        width:300
+        icon_right:'account'
+        icon_right_color:app.theme_cls.accent_color
+
+
+    MDTextField:
+        hint_text:'ПАРОЛЬ'
+        id: password
+        pos_hint:{'center_x':.5,'center_y':.5}
+        size_hint:None,None
+        password:True
+        width:300
+        icon_right:'eye-off'
+        icon_right_color:app.theme_cls.accent_color
+
+    MDRaisedButton:
+        text:'Войти'
+        pos_hint:{'center_x':.5,'center_y':.37}
+        size_hint:.7,.09
+        md_bg_color:0.1,0.3,0.4,1
+        text_color:1,1,1,1
+        font_size:'18dp'
+        on_release:
+            root.manager.transition.direction = "up"
+            root.loginBtn()
+    MDTextButton:
+        text:'Забыли пароль?'
+        pos_hint:{'center_x':.5,'center_y':.25}
+        font_size:'15dp'
+    MDTextButton:
+        text:f'[color=#FFFFFF]Dont have an account ?[/color] Регистрация'
+        markup:True
+        pos_hint:{'center_x':0.5,'center_y':.22}
+        font_size:'15dp'
+        on_press: root.manager.current = 'signin'
+    MDTextButton:
+        text:f'[/color] Назад'
+        markup:True
+        pos_hint:{'center_x':0.2,'center_y':.23}
+        font_size:'15dp'
+        on_press: root.manager.current = 'tollbar'
+
+<SigninScreen>:
+    name:'signin'
+
+    nnum_list : num_list
+    namee: namee
+    email: email
+    password: passw
+    type_user: type_u
+
+    MDLabel:
+        text:'Возможности'
+        halign:'center'
+        theme_text_color:'Secondary'
+        pos_hint:{'center_y':.9}
+        font_style:'H6'
+    MDLabel:
+        text:'Регистрация'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_y':.8}
+        font_style:'H5'
+        underline:True
+        markup:True
+
+
+    MDTextField:
+        hint_text:'Фамилия Имя Отчество'
+        id: namee
+        pos_hint:{'center_x':.5,'center_y':.62}
+        size_hint:None,None
+        width:300
+        icon_right:'account'
+        icon_right_color:app.theme_cls.accent_color
+
+
+    MDTextField:
+        hint_text:'EMAIL'
+        id: email
+        pos_hint:{'center_x':.5,'center_y':.55}
+        size_hint:None,None
+        width:300
+        icon_right:'email'
+        icon_right_color:app.theme_cls.accent_color
+
+    MDTextField:
+        hint_text:'ПАРОЛЬ'
+        id: passw
+        pos_hint:{'center_x':.5,'center_y':.47}
+        size_hint:None,None
+        password:True
+        width:300
+        icon_right:'eye-off'
+        icon_right_color:app.theme_cls.accent_color
+
+
+    MDTextField:
+        hint_text:'Номер лицензии инвалидности'
+        id: num_list
+        pos_hint:{'center_x':.5,'center_y':.39}
+        size_hint:None,None
+        width:300
+
+    MDTextField:
+        hint_text:'Тип инвалидности'
+        id: type_u
+        pos_hint:{'center_x':.5,'center_y':.31}
+        size_hint:None,None
+        width:300
+
+    MDRaisedButton:
+        text:'Зарегистрироваться'
+        pos_hint:{'center_x':.5,'center_y':.20}
+        size_hint:.7,.09
+        md_bg_color:0.1,0.3,0.4,1
+        text_color:1,1,1,1
+        font_size:'18dp'
+        on_release:
+            root.manager.transition.direction = "left"
+            root.submit()
+
+    MDTextButton:
+        text:f'[color=#FFFFFF]Already have an account ?[/color] Войти'
+        markup:True
+        pos_hint:{'center_x':0.5,'center_y':.10}
+        font_size:'15dp'
+        on_press: root.manager.current = 'login'
+    MDTextButton:
+        text:f'[/color] Назад'
+        markup:True
+        pos_hint:{'center_x':0.2,'center_y':.10}
+        font_size:'15dp'
+        on_press: root.manager.current = 'tollbar'
+
+
+<ToolScreen>:
+    maps: mapview
+    name:'tollbar'
+    NavigationLayout:
+        ScreenManager:
+            Screen:
+				BoxLayout:
+				    orientation: 'vertical'
+
+				    MDToolbar:
+				    	title: 'Возможности'
+				        left_action_items: [["menu", lambda x: nav_drawer.toggle_nav_drawer()]]
+				        right_action_items: [['magnify', lambda x: app.search_menu.open()]]
+				        md_bg_color: app.theme_cls.primary_color
+
+				    FarmersMapView:
+				        id: mapview
+
+                        IconLeftWidget:
+                            icon: "crosshairs-gps"
+                            pos_hint:{'center_x':0.1,'center_y':.1}
+                            on_press: root.findme()
+
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                orientation: 'vertical'
+                padding: "8dp"
+                spacing: "8dp"
+
+                Image:
+                    id: logo
+                    size_hint: (0.5,0.5)
+                    source: "Logo.png"
+                    
+
+                MDLabel:
+                    text: "Возможности"
+                    font_style: "Subtitle1"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
+                MDLabel:
+                    text: "daniklogunov@gmail.com"
+                    size_hint_y: None
+                    font_style: "Caption"
+                    height: self.texture_size[1]
+
+                ScrollView:
+
+                    DrawerList:
+                        id: md_list
+                        
+                        MDList:
+                            OneLineIconListItem:
+                                text: "Профиль"
+                                on_release: root.manager.current = 'menu'
+                                IconLeftWidget:
+                                    icon: "face-profile"
+                                    
+                           
+                                    
+                            OneLineIconListItem:
+                                text: "Добавить место"
+                                on_release: root.cheking_user_log_in_system()
+                                IconLeftWidget:
+                                    icon: "upload"
+                                    
+                            OneLineIconListItem:
+                                text: "Обратная связь"
+                                on_release: root.cheking_user_log_in_system_for_callback()
+                                IconLeftWidget:
+                                    icon: "call-made"
+
+                            OneLineIconListItem:
+                                text: "Настройки"
+                            
+                                IconLeftWidget:
+                                    icon: "settings"
+                MDTextButton:
+                    text:f'О Программе'
+                    markup:True
+                    pos_hint:{'center_x':0.2,'center_y':.1}
+                    font_size:'10dp'
+                    on_press: root.manager.current = 'privacyPolicy'
+
+
+<AddPlaceScreen>:
+    name: 'addplace'
+    ffimd : fimd
+    market_namee: market_name
+    address: addres
+    market_site: site
+    market_vk: vk
+    market_time: time
+
+    ScrollView:
+        id: scroll
+        MDList:
+            id: list_layout 
+            MDLabel:
+                text: "Добавить место"
+                font_style: "Subtitle1"
+                size_hint_y: None
+                height: self.texture_size[1]
+            MDTextButton:
+                text:f'[/color] Назад'
+                markup:True
+                font_size:'15dp'
+                on_press: root.manager.current = 'tollbar'
+
+            MDTextField:
+                hint_text:'FIMD'
+                id: fimd
+                size_hint:None,None
+                width:300
+
+            MDTextField:
+                hint_text:'Наименование'
+                id: market_name
+                size_hint:None,None
+                width:300
+
+            MDTextField:
+                hint_text:'Адресс'
+                id: addres
+                size_hint:None,None
+                width:300
+
+            MDTextField:
+                hint_text:'Сайт'
+                id: site
+                size_hint:None,None   
+                width:300
+
+            MDTextField:
+                hint_text:'ВКонтакте'
+                id: vk
+                size_hint:None,None
+                width:300
+
+            MDTextField:
+                hint_text:'Время работы'
+                id: time
+                size_hint:None,None
+                width:300
+
+            GridLayout:
+                cols: 3           
+                Label:
+                    text: 'Лифт'
+                    color: 120,120,120,1
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+
+     
+                Label:
+                    text: 'Пандусы'
+                    color: 120,120,120,1
+                CheckBox:
+                    group: 'check'
+                    id: chk_female
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+
+    
+                Label:
+                    text: 'Звук. маяки'
+                    color: 120,120,120,1
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+                Label:
+                    text: 'Лифт'
+                    color: 120,120,120,1
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+
+     
+                Label:
+                    text: 'Пандусы'
+                    color: 120,120,120,1
+                CheckBox:
+                    group: 'check'
+                    id: chk_female
+                CheckBox:
+                    group: 'check'
+                    id : chk_male
+            MDRaisedButton:
+                text:'Добавить место'
+                pos_hint:{'center_x':0.3,'center_y':.10}
+                md_bg_color:0.1,0.3,0.4,1
+                text_color:1,1,1,1
+                font_size:'18dp'
+                on_release:
+                    root.get_market()
+
+<CallBackScreen>:
+    name: 'callback'
+    massagee: textfield
+
+    MDLabel:
+        text:'Обратная связь'
+        halign:'center'
+        theme_text_color:'Secondary'
+        pos_hint:{'center_y':.9}
+        font_style:'H6'
+    MDLabel:
+        text:'Пожалуйста напишите сообщение'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_y':.8}
+        font_style:'H5'
+        underline:True
+        markup:True
+    MDLabel:
+        text:'Ответ придёт на ваш email.'
+        halign:'center'
+        theme_text_color:'Secondary'
+        pos_hint:{'center_y':.60}
+    
+
+    MDTextField:
+        id: textfield
+        hint_text:'Текст'
+        pos_hint:{'center_x':.5,'center_y':.70}
+        size_hint:None,None
+        width:300
+        icon_right:'message'
+        icon_right_color:app.theme_cls.accent_color
+
+
+
+    MDRaisedButton:
+        text:'Отправить'
+        pos_hint:{'center_x':.5,'center_y':.37}
+        size_hint:.7,.09
+        md_bg_color:0.1,0.3,0.4,1
+        text_color:1,1,1,1
+        font_size:'18dp'
+        on_press: root.sendEmail()
+    MDTextButton:
+        text:f'[/color] Назад'
+        markup:True
+        pos_hint:{'center_x':0.2,'center_y':.22}
+        font_size:'15dp'
+        on_press: root.manager.current = 'tollbar'           
+
+
+
+<PrivacyPolicyScreen>:
+    name: 'privacyPolicy'
+
+
+    MDTextButton:
+        text:f'[/color] Назад'
+        markup:True
+        pos_hint:{'center_x':.9,'center_y':.95}
+        font_size:'15dp'
+        on_press: root.manager.current = 'tollbar' 
+
+    Image:
+        id: logo
+        pos_hint:{'center_x':.12,'center_y':.93}
+        size_hint: (0.2,0.2)
+        source: "Logo.png"
+
+    MDLabel:
+        text: "Возможности"
+        font_style: "Subtitle1"
+        pos_hint:{'center_x':.74,'center_y':.93}
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    MDLabel:
+        text:'Разработчик'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_x':0.15,'center_y':.82}
+        font_size:'15dp'
+        underline:True
+        markup:True
+
+    Image:
+        id: avatar
+        size_hint: (.5,.5)
+        pos_hint:{'center_x':.5,'center_y':0.68}
+        source: "my.png"
+
+    MDLabel:
+        text:'Даниил Логунов'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_x':0.5,'center_y':.50}
+        font_size:'14dp'
+
+    MDLabel:
+        text:'Номер телефона: +7(911)4844682'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_x':0.385,'center_y':.474}
+        font_size:'14dp'
+
+    MDLabel:
+        text:'Email: daniklogunov@gmail.com'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_x':0.35,'center_y':.448}
+        font_size:'14dp'
+
+    MDLabel:
+        text:'Политика контенфициальности'
+        halign:'center'
+        theme_text_color:'Primary'
+        pos_hint:{'center_x':0.4,'center_y':.40}
+        font_size:'15dp'
+        underline:True
+        markup:True
