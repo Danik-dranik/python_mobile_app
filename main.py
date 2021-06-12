@@ -36,17 +36,15 @@ class ToolScreen(Screen):
     maps = ObjectProperty(None)
 
     # Функция поиска местоположения
-    def findme(self):
+    def findme(self, lat, lon):
+        point = "Geolocation"
         try:
-            g = geocoder.ip('me')
-            result = g.latlng
-            lat = result[0]
-            lon = result[1]
             print(lat, lon)
             mapview = self.maps
             mapview.center_on(lat, lon)
         except Exception as err:
-            print(err)
+            get_error()
+            get_warring(err, point)
 
     def cheking_user_log_in_system(self):
         if not data:
@@ -76,6 +74,7 @@ class SearchPopupMenu(MDInputDialog):
         Clock.schedule_once(self.set_field_focus, 0.5)
 
     def callback(self, *args):
+        point = "Find place"
         try:
             URL = "https://geocode.search.hereapi.com/v1/geocode"
             address = self.text_field.text
@@ -87,10 +86,28 @@ class SearchPopupMenu(MDInputDialog):
             data = r.json()
             lat = data['items'][0]['position']['lat']
             lon = data['items'][0]['position']['lng']
-
             print(lat, lon)
+
+            mapview = self.maps
+            mapview.center_on(lat, lon)
         except Exception as err:
-            print(err)
+            get_error()
+            get_warring(err, point)
+
+
+def get_warring(err, point):
+    try:
+        sender_email = "vosmoshnostiapp@gmail.com"
+        rec_email = "daniklogunov@gmail.com"
+        password = "vwsiwEIrhY"
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        msg = 'Ошибка в '+str(point)+' '+str(err)
+        server.login(sender_email, password)
+        server.sendmail(sender_email, rec_email, msg.encode('utf-8'))
+        print("Email was send")
+    except Exception as err:
+        print(err)
 
 
 # Класс экрана разработчика
@@ -108,6 +125,7 @@ class LoginScreen(Screen):
     def loginBtn(self):
         email = ObjectProperty(None)
         password = ObjectProperty(None)
+        point = "Authorization"
         try:
             sqliteConnection = sqlite3.connect("markets.db")
             cursor = sqliteConnection.cursor()
@@ -124,7 +142,8 @@ class LoginScreen(Screen):
                 cheking_user_log = 1
                 data.append(cheking_user_log)
         except Exception as err:
-            print(err)
+            get_error()
+            get_warring(err, point)
 
     def createBtn(self):
         self.reset()
@@ -142,6 +161,7 @@ class SigninScreen(Screen):
     password = ObjectProperty(None)
     nnum_list = ObjectProperty(None)
     type_user = ObjectProperty(None)
+    point = "Registration"
 
     # Функция проверки корректности заполненых данных и добавление в бд
     def submit(self, *args):
@@ -175,8 +195,8 @@ class SigninScreen(Screen):
             except Exception as e:
                 print(e)
                 invalidForm()
+                get_warring(err, point)
         else:
-            print("не правильные данные")
             invalidForm()
 
     def login(self):
@@ -193,6 +213,7 @@ class SigninScreen(Screen):
 
 # Класс экрана Обратной связи
 class CallBackScreen(Screen):
+    point = "Callback"
     massagee = ObjectProperty(None)
 
     # Функция отправки сообщения на Gmail
@@ -213,13 +234,15 @@ class CallBackScreen(Screen):
             self.resetEmail()
             successSendassege()
         except Exception as err:
-            print(err)
+            get_error()
+            get_warring(err, point)
 
     def resetEmail(self):
         self.massagee.text = ""
 
 
 class AddPlaceScreen(Screen):
+    point = "Add Place"
     market_namee = ObjectProperty(None)
     ffimd = ObjectProperty(None)
     address = ObjectProperty(None)
@@ -258,6 +281,7 @@ class AddPlaceScreen(Screen):
         except Exception as e:
             print(e)
             invalidForm()
+            get_warring(err, point)
 
     def reset(self):
         self.market_namee.text = ""
@@ -285,6 +309,14 @@ class WindowManager(ScreenManager):
     sm.add_widget(CallBackScreen(name='callback'))
     sm.add_widget(PrivacyPolicyScreen(name='addplace'))
     sm.add_widget(PrivacyPolicyScreen(name='privacyPolicy'))
+
+def get_error():
+    pop = Popup(title='Произошла Ошибка',
+                content=Label(text='Просим прощения, \n'
+                                   'но данный функционал не доступен.'),
+                size_hint=(None, None), size=(300, 300))
+
+    pop.open()
 
 
 # Функция успешной отправки сообщения
